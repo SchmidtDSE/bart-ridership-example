@@ -15,7 +15,7 @@ import sqlite3
 import sys
 import typing
 
-import geolib  # type: ignore
+import geolib.geohash  # type: ignore
 
 # Constants for CLI
 ARGS_STR = '[station names] [geojson] [ridership] [population] [output db]'
@@ -216,7 +216,8 @@ class GraphReader:
         sources = filter(lambda x: x != 'exit', row.keys())
         sources_allowed = filter(lambda x: x != destination, sources)
         for source in sources_allowed:
-            count = int(row[source].strip().replace(',', ''))
+            count_str = row[source].strip().replace(',', '')
+            count = 0 if count_str == '' else float(count_str)
             self._add_count(source, destination, count)
     
     def _on_end(self, line: str):
@@ -333,7 +334,7 @@ def simplify_record(target: typing.Dict,
     Returns:
         Simplified record as a MetadataRecord.
     """
-    name_raw = target['properties']['Name']
+    name_raw = target['properties']['name']
     
     name = NAME_TRANSFORMS.get(name_raw, name_raw)
     coordinates = target['geometry']['coordinates']
@@ -357,9 +358,12 @@ def load_stations(filepath: str,
     """
     with open(filepath) as f:
         stations_geojson = json.load(f)
-        features = stations_geojson['features']
+        features = filter(
+            lambda x: x['geometry']['type'] == 'Point',
+            stations_geojson['features']
+        )
         features_allowed = filter(
-            lambda x: x['properties']['Name'] not in EXCLUDES,
+            lambda x: x['properties']['name'] not in EXCLUDES,
             features
         )
         return [simplify_record(x, codes_reverse) for x in features_allowed]
@@ -393,10 +397,10 @@ def load_population_data(filepath: str) -> typing.List[PopulationGridSpace]:
     Returns:
         List of geohash grid spaces with populations.
     """
-    with open('population.csv') as f:
+    with open(filepath) as f:
         reader = csv.DictReader(f)
         return [
-            PopulationGridSpace(x['geohash'], float(x['count'])) for x in reader
+            PopulationGridSpace(x['geohash'], float(x['population'])) for x in reader
         ]
 
 
