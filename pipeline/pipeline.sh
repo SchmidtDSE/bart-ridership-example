@@ -17,4 +17,4 @@ cd ..
 
 echo "[4 / ] Transform data..."
 python geohash_population.py ./data/usa_ppp_2020_1km_Aggregated.tif ./data/population.csv
-
+python prep_dataset.py
