@@ -15,7 +15,7 @@ import sqlite3
 import sys
 import typing
 
-import geolib.geohash
+import geolib  # type: ignore
 
 # Constants for CLI
 ARGS_STR = '[station names] [geojson] [ridership] [population] [output db]'

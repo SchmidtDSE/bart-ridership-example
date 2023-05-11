@@ -1,0 +1,6 @@
+geolib ~= 1.0.7
+geotiff ~= 0.2.9
+imagecodecs[all] ~= 2023.3.16
+kml2geojson ~= 5.1.0
+numpy ~= 1.24.3
+xlsx2csv ~= 0.8.1

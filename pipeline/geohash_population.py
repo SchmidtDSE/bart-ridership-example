@@ -1,8 +1,9 @@
 import csv
+import queue
 import sys
 import typing
 
-import geolib  # type: ignore
+import geolib.geohash  # type: ignore
 import geotiff  # type: ignore
 import numpy
 
@@ -80,7 +81,8 @@ def read_box(target: geotiff.GeoTiff,
         return None
 
 
-def get_sum(target: geotiff.GeoTiff, geohash: str) -> typing.Optional[float]:
+def get_sum(target: geotiff.GeoTiff,
+    geohash: str) -> typing.Optional[PopulationGrid]:
     bounds_nest = geolib.geohash.bounds(geohash)
     bounds = [
         [bounds_nest[0][1], bounds_nest[0][0]],
@@ -91,12 +93,14 @@ def get_sum(target: geotiff.GeoTiff, geohash: str) -> typing.Optional[float]:
     if result is None:
         return None
     
-    return float(numpy.sum(result))
+    result = float(numpy.sum(result))
+    return PopulationGrid(geohash, result)
 
 
 def get_sums(target: geotiff.GeoTiff) -> typing.Iterable[PopulationGrid]:
     enumerator = GeohashEnumerator()
-    return map(lambda geohash: get_sum(target, geohash), enumerator)
+    raw_results = map(lambda geohash: get_sum(target, geohash), enumerator)
+    return filter(lambda x: x is not None, raw_results)
 
 
 def persist_results(results: typing.Iterable[PopulationGrid], location: str):
@@ -119,6 +123,10 @@ def main():
     input_tiff_path = sys.argv[1]
     output_path = sys.argv[2]
 
-    geotiff = geotiff.GeoTiff(input_tiff_path)
-    sums = get_sums(geotiff)
+    tiff = geotiff.GeoTiff(input_tiff_path)
+    sums = get_sums(tiff)
     persist_results(sums, output_path)
+
+
+if __name__ == '__main__':
+    main()
