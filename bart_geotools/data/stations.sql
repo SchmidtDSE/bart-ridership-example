@@ -1,0 +1,1 @@
+SELECT name, code, latitude, longitude FROM metadata;

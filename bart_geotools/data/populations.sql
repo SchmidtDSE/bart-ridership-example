@@ -1,0 +1,1 @@
+SELECT count, latitude, longitude FROM populations;

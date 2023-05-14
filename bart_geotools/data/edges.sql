@@ -1,0 +1,1 @@
+SELECT source, destination, count FROM weights;
