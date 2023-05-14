@@ -1,6 +1,6 @@
 """Script to build a dataset for a BART example for geotools for Procesing.
 
-USAGE: python prep_rider_data.py [names] [geojson] [ridership] [population] [db]
+USAGE: python prep_rider_data.py
 
 (c) 2023 Regents of University of California / The Eric and Wendy Schmidt Center
 for Data Science and the Environment at UC Berkeley.
@@ -18,9 +18,9 @@ import typing
 import geolib.geohash  # type: ignore
 
 # Constants for CLI
-ARGS_STR = '[station names] [geojson] [ridership] [population] [output db]'
-NUM_ARGS = 5
-USAGE_STR = 'USAGE: python prep_rider_data.py ' + ARGS_STR
+ARGS_STR = '[station names] [geojson] [ridership] [population] [land] [output db]'
+NUM_ARGS = 6
+USAGE_STR = 'USAGE: python prep_dataset.py ' + ARGS_STR
 
 # Constants for name standardization
 NAME_TRANSFORMS = {
@@ -406,7 +406,8 @@ def load_population_data(filepath: str) -> typing.List[PopulationGridSpace]:
 
 def export(db_path: str, simplified_meta: typing.Iterable[MetadataRecord],
     weights: typing.List[GraphWeight],
-    population_grid: typing.List[PopulationGridSpace]):
+    population_grid: typing.List[PopulationGridSpace],
+    land_data: typing.List[typing.Dict]):
     """Build the export database.
 
     Args:
@@ -465,7 +466,6 @@ def export(db_path: str, simplified_meta: typing.Iterable[MetadataRecord],
         weights_tuples
     )
 
-
     # Build population
     cursor.execute(
         '''
@@ -490,10 +490,49 @@ def export(db_path: str, simplified_meta: typing.Iterable[MetadataRecord],
         population_tuples
     )
 
+    # Build polygons
+    cursor.execute(
+        '''
+        CREATE TABLE polygons (
+            latitude FLOAT,
+            longitude FLOAT,
+            name TEXT
+        )
+        '''
+    )
+
+    polygon_tuples = map(
+        lambda x: (x['latitude'], x['longitude'], x['name']),
+        land_data
+    )
+
+    cursor.executemany(
+        '''
+        INSERT INTO polygons (latitude, longitude, name) VALUES (?, ?, ?)
+        ''',
+        polygon_tuples
+    )
 
     # Persist
     output_db.commit()
     output_db.close()
+
+
+def load_land_data(land_path: str) -> typing.Iterable[typing.Dict]:
+    """Load the CSV of points for the land polygon.
+    
+    Args:
+        land_path: The path to the land layer.
+    """
+    with open(land_path) as f:
+        reader = csv.DictReader(f)
+        points = list(reader)
+    
+    return map(lambda x: {
+        'longitude': x['longitude'],
+        'latitude': x['latitude'],
+        'name': 'bayarea'
+    }, points)
 
 
 def main():
@@ -506,14 +545,16 @@ def main():
     geojson_path = sys.argv[2]
     ridership_path = sys.argv[3]
     population_path = sys.argv[4]
-    output_path = sys.argv[5]
+    land_path = sys.argv[5]
+    output_path = sys.argv[6]
 
     codes_reverse = load_station_names(station_names_path)
     simplified_meta = load_stations(geojson_path, codes_reverse)
     weights = load_ridership_data(ridership_path)
     population_grid = load_population_data(population_path)
+    land_data = load_land_data(land_path)
 
-    export(output_path, simplified_meta, weights, population_grid)
+    export(output_path, simplified_meta, weights, population_grid, land_data)
 
 
 if __name__ == '__main__':
