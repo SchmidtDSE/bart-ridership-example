@@ -19,4 +19,4 @@ cd ..
 
 echo "[4 / 4] Transform data..."
 python geohash_population.py ./data/usa_ppp_2020_1km_Aggregated.tif ./data/population.csv
-python prep_dataset.py ./preprepared/station-names.csv ./preprepared/bayarea.geojson ./data/ridership.csv ./data/population.csv ./data/land.csv ./data/output.db
+python prep_dataset.py ./preprepared/station-names.csv ./data/bart/style.json ./data/ridership.csv ./data/population.csv ./data/land.csv ./data/output.db

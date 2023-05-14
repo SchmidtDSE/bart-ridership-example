@@ -366,7 +366,11 @@ def load_stations(filepath: str,
             lambda x: x['properties']['name'] not in EXCLUDES,
             features
         )
-        return [simplify_record(x, codes_reverse) for x in features_allowed]
+        simplified = [
+            simplify_record(x, codes_reverse) for x in features_allowed
+        ]
+    
+    return simplified
 
 
 def load_ridership_data(filepath: str) -> typing.List[GraphWeight]:
