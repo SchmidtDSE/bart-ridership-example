@@ -19,14 +19,37 @@
  */
 
 import java.util.*;
+import java.util.stream.*;
 
 Dataset dataset;
+GeoTransformation mapView;
+float maxStationCount;
+float maxEdgeCount;
 
 
 void setup() {
+  size(900, 850);
+  
   dataset = loadDataset();
+  maxStationCount = dataset.getMaxStationCount();
+  maxEdgeCount = dataset.getMaxEdgeCount();
+  
+  frameRate(15);
 }
 
 
 void draw() {
+  background(#606060);
+  
+  mapView = new GeoTransformation(
+    new GeoPoint(MAP_CENTER_LONGITUDE, MAP_CENTER_LATITUDE),
+    new PixelOffset(MAP_CENTER_X, MAP_CENTER_Y),
+    MAP_SCALE
+  );
+  
+  Set<String> highlightedCodes = getHighlightedCodes();
+  
+  drawLand();
+  drawEdges(highlightedCodes);
+  drawStations(highlightedCodes);
 }
