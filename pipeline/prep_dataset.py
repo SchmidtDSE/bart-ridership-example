@@ -41,7 +41,7 @@ NAME_TRANSFORMS = {
     'Coliseum/Airport Connector': 'Coliseum'
 }
 
-EXCLUDES = ['eBART Transfer']
+EXCLUDES = ['eBART Transfer', '', 'Exits', 'Entries']
 
 # Constants for file reader automaton
 STATE_WAITING = 0
@@ -346,7 +346,7 @@ def simplify_record(target: typing.Dict,
 
 
 def load_stations(filepath: str,
-    codes_reverse: typing.Dict[str, str]) -> typing.List[MetadataRecord]:
+    codes_reverse: typing.Dict[str, str]) -> typing.Iterable[MetadataRecord]:
     """Load information about stations from a geojson file.
 
     Args:
@@ -373,7 +373,7 @@ def load_stations(filepath: str,
     return simplified
 
 
-def load_ridership_data(filepath: str) -> typing.List[GraphWeight]:
+def load_ridership_data(filepath: str) -> typing.Iterable[GraphWeight]:
     """Load ridership data as a graph of stations.
 
     Args:
@@ -389,10 +389,20 @@ def load_ridership_data(filepath: str) -> typing.List[GraphWeight]:
         for row in csv_reader:
             graph_reader.step(row)
         
-        return graph_reader.finish()
+        result = graph_reader.finish()
+    
+    source_filtered = filter(
+        lambda x: x.get_source() not in EXCLUDES,
+        result
+    )
+
+    return filter(
+        lambda x: x.get_destination() not in EXCLUDES,
+        source_filtered
+    )
 
 
-def load_population_data(filepath: str) -> typing.List[PopulationGridSpace]:
+def load_population_data(filepath: str) -> typing.Iterable[PopulationGridSpace]:
     """Load CSV file mapping geohash to estimated population.
 
     Args:
@@ -409,9 +419,9 @@ def load_population_data(filepath: str) -> typing.List[PopulationGridSpace]:
 
 
 def export(db_path: str, simplified_meta: typing.Iterable[MetadataRecord],
-    weights: typing.List[GraphWeight],
-    population_grid: typing.List[PopulationGridSpace],
-    land_data: typing.List[typing.Dict]):
+    weights: typing.Iterable[GraphWeight],
+    population_grid: typing.Iterable[PopulationGridSpace],
+    land_data: typing.Iterable[typing.Dict]):
     """Build the export database.
 
     Args:
