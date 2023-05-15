@@ -15,11 +15,13 @@
  * part of afscgap released under the BSD 3-Clause License. See LICENSE.md.
  *
  * @license BSD
- * @author Sam Pottinger (dse.berkeley.edu)
+ * @author Sam Pottinger, Magali de Bruyn (dse.berkeley.edu)
  */
 
 import java.util.*;
 import java.util.stream.*;
+
+import org.dse.geopoint.*;
 
 Dataset dataset;
 GeoTransformation mapView;

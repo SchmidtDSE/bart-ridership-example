@@ -133,7 +133,7 @@ class HaloScalePanel extends LegendPanel {
   }
   
   public float getPanelHeight() {
-    return 110;
+    return 170;
   }
   
   public String getTitle() {
@@ -141,7 +141,24 @@ class HaloScalePanel extends LegendPanel {
   }
   
   public void drawInner(Set<String> highlightedCodes) {
+    noStroke();
+    ellipseMode(RADIUS);
+    textAlign(LEFT, CENTER);
     
+    float y = 12;
+    
+    float step = maxStationCount / 5;
+    for (float count = step; count <= maxStationCount; count += step) {
+      float radius = getHaloRadius(count);
+      
+      fill(#A0A0A0);
+      ellipse(20, y, radius, radius);
+      
+      fill(#FFFFFF);
+      text(nfc(round(count), 0), 42, y);
+      
+      y += 5 + radius * 2;
+    }
   }
   
 }
@@ -166,7 +183,7 @@ class LineScalePanel extends LegendPanel {
   }
   
   public void drawInner(Set<String> highlightedCodes) {
-    
+    // use strokeWeight(getEdgeWidth(count)) and maxEdgeCount
   }
   
 }
