@@ -148,6 +148,7 @@ class HaloScalePanel extends LegendPanel {
     float y = 12;
     
     float step = maxStationCount / 5;
+    
     for (float count = step; count <= maxStationCount; count += step) {
       float radius = getHaloRadius(count);
       
@@ -183,7 +184,23 @@ class LineScalePanel extends LegendPanel {
   }
   
   public void drawInner(Set<String> highlightedCodes) {
-    // use strokeWeight(getEdgeWidth(count)) and maxEdgeCount
+    int y = 11;
+    float step = maxEdgeCount / 5;
+    
+    for (float count = step; count <= maxEdgeCount; count += step) {
+      fill(#FFFFFF);
+      stroke(#a2a2a2);
+      strokeWeight(getEdgeWidth(count));
+      
+      fill(#FFFFFF);
+      line(11, y, 51, y);
+      
+      textAlign(LEFT, CENTER);
+      text(nfc(round(count), 0), 65, y);
+      
+      y += 17;
+    }    sx
+    
   }
   
 }
