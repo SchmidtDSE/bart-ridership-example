@@ -25,16 +25,19 @@ Dataset dataset;
 GeoTransformation mapView;
 float maxStationCount;
 float maxEdgeCount;
+List<LegendPanel> legendPanels;
 
 
 void setup() {
   size(900, 850);
   
+  loadAssets();
   dataset = loadDataset();
   maxStationCount = dataset.getMaxStationCount();
   maxEdgeCount = dataset.getMaxEdgeCount();
+  legendPanels = buildLegendPanels();
   
-  frameRate(15);
+  frameRate(10);
 }
 
 
@@ -50,6 +53,6 @@ void draw() {
   Set<String> highlightedCodes = getHighlightedCodes();
   
   drawLand();
-  drawEdges(highlightedCodes);
-  drawStations(highlightedCodes);
+  drawStationsAndEdges(highlightedCodes);
+  drawUi(highlightedCodes);
 }

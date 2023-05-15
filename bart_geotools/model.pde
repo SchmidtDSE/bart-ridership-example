@@ -136,6 +136,7 @@ class Population {
 class Dataset {
   
   private final List<Station> stations;
+  private final Map<String, Station> stationsByCode;
   private final List<Population> populations;
   private final GeoPolygon landPolygon;
   
@@ -144,6 +145,7 @@ class Dataset {
     stations = newStations;
     populations = newPopulations;
     landPolygon = newLandPolygon;
+    stationsByCode = getStationsByCode(stations);
   }
   
   public List<Station> getStations() {
@@ -171,6 +173,17 @@ class Dataset {
       .map((x) -> x.getCount())
       .max((a, b) -> a.compareTo(b))
       .get();
+  }
+  
+  public Station getStationByCode(String code) {
+    return stationsByCode.get(code);
+  }
+  
+  private Map<String, Station> getStationsByCode(List<Station> stations) {
+    return stations.stream().collect(Collectors.toMap(
+      (x) -> x.getCode(),
+      (x) -> x
+    ));
   }
   
 }

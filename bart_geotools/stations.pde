@@ -69,6 +69,12 @@ Set<String> getHighlightedCodes() {
 }
 
 
+void drawStationsAndEdges(Set<String> highlightedCodes) {
+  drawEdges(highlightedCodes);
+  drawStations(highlightedCodes);
+}
+
+
 void drawStations(Set<String> highlightedCodes) {
   pushMatrix();
   pushStyle();
@@ -97,7 +103,7 @@ void drawStations(Set<String> highlightedCodes) {
         .reduce((a, b) -> a + b)
         .orElse(0.0);
       
-      fill(#FFFFFF);
+      fill(OVERLAP_COLOR);
       noStroke();
       
       float highlightRadius = getHaloRadius(overlapCount);
@@ -105,8 +111,8 @@ void drawStations(Set<String> highlightedCodes) {
     }
     
     // Halo
-    fill(hovering ? #FFFFFF : #30FFFFFF);
-    stroke(#FFFFFF);
+    fill(hovering ? HALO_CENTER_COLOR_ACTIVE : HALO_CENTER_COLOR_INACTIVE);
+    stroke(HALO_BORDER);
     float radius = pointWithRadius.getRadius();
     ellipse(x, y, radius, radius);
   }
@@ -139,7 +145,7 @@ void drawEdges(Set<String> highlightedCodes) {
       boolean hoveringStart = highlightedCodes.contains(edge.getSource());
       boolean hoveringEnd = highlightedCodes.contains(edge.getDestination());
       boolean hovering = hoveringStart || hoveringEnd;
-      stroke(hovering ? #50FFFFFF : #10FFFFFF);
+      stroke(hovering ? EDGE_COLOR_ACTIVE : EDGE_COLOR_INACTIVE);
       
       if (hovering || nothingHighlighted) {
         strokeWeight(getEdgeWidth(edge.getCount()));
