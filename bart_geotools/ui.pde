@@ -286,11 +286,11 @@ class PopulationPanel extends LegendPanel {
   }
   
   public float getWidth() {
-    return 150;
+    return 94;
   }
   
   public float getPanelHeight() {
-    return 150;
+    return 140;
   }
   
   public String getTitle() {
@@ -298,7 +298,26 @@ class PopulationPanel extends LegendPanel {
   }
   
   public void drawInner(Set<String> highlightedCodes) {
+    textAlign(LEFT, CENTER);
     
+    rectMode(RADIUS);
+    
+    float y = 12;
+    float step = maxPopulation / 7;
+    
+    for (float count = step; count <= maxPopulation; count += step) {
+      fill(#606060);
+      rect(15, y, 5, 7);
+      
+      fill(getPopulationColor(count));
+      rect(15, y, 5, 7);
+      
+      fill(#FFFFFF);
+      text(nfc(round(count), 0), 27, y);
+      
+      y += 16;
+      
+    }
   }
   
 }
