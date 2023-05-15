@@ -1,8 +1,13 @@
 void drawUi(Set<String> highlightedCodes) {
   drawTitle();
+  drawToggleDisplay();
   
   for (LegendPanel panel : legendPanels) {
     panel.draw(highlightedCodes);
+  }
+  
+  if (showingPopulation) {
+    populationPanel.draw(highlightedCodes);
   }
 }
 
@@ -31,6 +36,30 @@ void drawTitle() {
   textFont(TITLE_FONT);
   textAlign(CENTER, CENTER);
   text("BART Ridership Viz", 125, 12);
+  
+  popStyle();
+  popMatrix();
+}
+
+
+void drawToggleDisplay() {
+  pushMatrix();
+  pushStyle();
+  
+  noStroke();
+  fill(UI_BG_COLOR_TITLE);
+  rectMode(CORNER);
+  rect(0, 26, 250, 14);
+  
+  noStroke();
+  fill(#FFFFFF);
+  textFont(BODY_FONT);
+  textAlign(CENTER, CENTER);
+  text(
+    showingPopulation ? "Press p to hide population." : "Press p to overlay population.",
+    125,
+    33
+  );
   
   popStyle();
   popMatrix();
@@ -92,7 +121,7 @@ class SelectedListPanel extends LegendPanel {
   }
   
   public float getWidth() {
-    return 250;
+    return 150;
   }
   
   public float getPanelHeight() {
@@ -125,11 +154,11 @@ class SelectedListPanel extends LegendPanel {
 class HaloScalePanel extends LegendPanel {
   
   public float getX() {
-    return 260;
+    return 160;
   }
   
   public float getWidth() {
-    return 150;
+    return 132;
   }
   
   public float getPanelHeight() {
@@ -168,11 +197,11 @@ class HaloScalePanel extends LegendPanel {
 class LineScalePanel extends LegendPanel {
   
   public float getX() {
-    return 415;
+    return 297;
   }
   
   public float getWidth() {
-    return 150;
+    return 139;
   }
   
   public float getPanelHeight() {
@@ -187,29 +216,27 @@ class LineScalePanel extends LegendPanel {
     int y = 11;
     float step = maxEdgeCount / 5;
     
+    fill(#FFFFFF);
+    stroke(#a2a2a2);
+    
     for (float count = step; count <= maxEdgeCount; count += step) {
-      fill(#FFFFFF);
-      stroke(#a2a2a2);
       strokeWeight(getEdgeWidth(count));
-      
-      fill(#FFFFFF);
       line(11, y, 51, y);
       
       textAlign(LEFT, CENTER);
       text(nfc(round(count), 0), 65, y);
       
       y += 17;
-    }    sx
-    
+    }
   }
-  
+
 }
 
 
 class SymbolsPanel extends LegendPanel {
   
   public float getX() {
-    return 570;
+    return 441;
   }
   
   public float getWidth() {
@@ -247,6 +274,31 @@ class SymbolsPanel extends LegendPanel {
     noStroke();
     fill(#FFFFFF);
     text("Journies", 13, 35);
+  }
+  
+}
+
+
+class PopulationPanel extends LegendPanel {
+  
+  public float getX() {
+    return 566;
+  }
+  
+  public float getWidth() {
+    return 150;
+  }
+  
+  public float getPanelHeight() {
+    return 150;
+  }
+  
+  public String getTitle() {
+    return "Population";
+  }
+  
+  public void drawInner(Set<String> highlightedCodes) {
+    
   }
   
 }

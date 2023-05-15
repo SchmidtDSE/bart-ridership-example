@@ -27,7 +27,10 @@ Dataset dataset;
 GeoTransformation mapView;
 float maxStationCount;
 float maxEdgeCount;
+float maxPopulation;
 List<LegendPanel> legendPanels;
+LegendPanel populationPanel;
+boolean showingPopulation = false;
 
 
 void setup() {
@@ -37,7 +40,9 @@ void setup() {
   dataset = loadDataset();
   maxStationCount = dataset.getMaxStationCount();
   maxEdgeCount = dataset.getMaxEdgeCount();
+  maxPopulation = dataset.getMaxPopulation();
   legendPanels = buildLegendPanels();
+  populationPanel = new PopulationPanel();
   
   frameRate(10);
 }
@@ -54,7 +59,18 @@ void draw() {
   
   Set<String> highlightedCodes = getHighlightedCodes();
   
+  if (showingPopulation) {
+    drawPopulation();
+  }
+  
   drawLand();
   drawStationsAndEdges(highlightedCodes);
   drawUi(highlightedCodes);
+}
+
+
+void keyReleased() {
+  if (key == 'p') {
+    showingPopulation = !showingPopulation;
+  }
 }

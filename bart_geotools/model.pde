@@ -167,6 +167,13 @@ class Dataset {
       .get();
   }
   
+  public float getMaxPopulation() {
+    return populations.stream()
+      .map((x) -> x.getCount())
+      .max((a, b) -> a.compareTo(b))
+      .get();
+  }
+  
   public float getMaxEdgeCount() {
     return stations.stream()
       .flatMap((x) -> x.getEdges().stream())
