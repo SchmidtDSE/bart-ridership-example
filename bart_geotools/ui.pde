@@ -1,3 +1,20 @@
+/**
+ * Logic for drawing the legends and viz control components.
+ *
+ * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
+ * Center for Data Science and the Environment at UC Berkeley. This file is
+ * part of processing-geopoint released under the BSD 3-Clause License. See
+ * LICENSE.md.
+ *
+ * @license BSD
+ */
+
+/**
+ * Draw the UI layer.
+ *
+ * @param higlightedCodes Set of codes corresponding to stations highlighted by
+ *    the user.
+ */
 void drawUi(Set<String> highlightedCodes) {
   drawTitle();
   drawToggleDisplay();
@@ -12,6 +29,11 @@ void drawUi(Set<String> highlightedCodes) {
 }
 
 
+/**
+ * Build the legend UI components.
+ *
+ * @return Newly built legend panels.
+ */
 List<LegendPanel> buildLegendPanels() {
   List<LegendPanel> panels = new ArrayList<>();
   panels.add(new SelectedListPanel());
@@ -22,6 +44,9 @@ List<LegendPanel> buildLegendPanels() {
 }
 
 
+/**
+ * Draw the visualization title.
+ */
 void drawTitle() {
   pushMatrix();
   pushStyle();
@@ -29,19 +54,25 @@ void drawTitle() {
   noStroke();
   fill(UI_BG_COLOR_TITLE);
   rectMode(CORNER);
-  rect(0, 0, 250, 24);
+  rect(0, 0, 406, 24);
   
   noStroke();
   fill(#FFFFFF);
   textFont(TITLE_FONT);
   textAlign(CENTER, CENTER);
-  text("BART Ridership Viz", 125, 12);
+  text("SF Bay BART Daily Ridership Viz", 203, 12);
   
   popStyle();
   popMatrix();
 }
 
 
+/**
+ * Draw controls for the population layer.
+ *
+ * Display if the population layer is currently being shown and show the user
+ * how to toggle the layer by pressing a keyboard key.
+ */
 void drawToggleDisplay() {
   pushMatrix();
   pushStyle();
@@ -55,29 +86,72 @@ void drawToggleDisplay() {
   fill(#FFFFFF);
   textFont(BODY_FONT);
   textAlign(CENTER, CENTER);
-  text(
-    showingPopulation ? "Press p to hide population." : "Press p to overlay population.",
-    125,
-    33
-  );
+  
+  String message;
+  if (showingPopulation) {
+    message = "Press p to hide population.";
+  } else {
+    message = "Press p to overlay population.";
+  }
+
+  text(message, 125, 33);
   
   popStyle();
   popMatrix();
 }
 
 
+/**
+ * Template method for drawing a UI panel.
+ */
 abstract class LegendPanel {
   
+  /**
+   * Get the x coordinate (pixel space) at which the panel should be draw.
+   *
+   * @return The x coordinate for the left side of the panel.
+   */
   public abstract float getX();
   
+  /**
+   * Get how many pixels wide the panel should be.
+   *
+   * @return The panel width in pixels.
+   */
   public abstract float getWidth();
   
+  /**
+   * Get the height of the panel in pixels.
+   *
+   * @return The vertical size of the panel.
+   */
   public abstract float getPanelHeight();
   
+  /**
+   * Get the human-readable title to display in the panel title bar.
+   *
+   * @return Human-friendly description of the panel.
+   */
   public abstract String getTitle();
   
+  /**
+   * Draw the contents of the panel.
+   *
+   * Draw the contents of the panel after having had translated to its upper
+   * left hand corner. Note that the style and matrix will be pushed before
+   * calling this and popped after calling it.
+   *
+   * @param higlightedCodes Set of codes corresponding to stations highlighted
+   *    by the user.
+   */
   public abstract void drawInner(Set<String> highlightedCodes);
   
+  /**
+   * Draw this panel.
+   *
+   * @param higlightedCodes Set of codes corresponding to stations highlighted
+   *    by the user.
+   */
   public void draw(Set<String> highlightedCodes) {
     pushMatrix();
     pushStyle();
@@ -114,6 +188,9 @@ abstract class LegendPanel {
 }
 
 
+/**
+ * Panel showing the names of the stations currently highlighted by the user.
+ */
 class SelectedListPanel extends LegendPanel {
   
   public float getX() {
@@ -144,13 +221,16 @@ class SelectedListPanel extends LegendPanel {
         .map((x) -> x.getName())
         .reduce((a, b) -> a + "\n" + b)
         .get();
-      text(listStr, 2, 4, 246, 120);
+      text(listStr, 2, 4, 146, 120);
     }
   }
   
 }
 
 
+/**
+ * Panel describing station ridership in terms of halo radius.
+ */
 class HaloScalePanel extends LegendPanel {
   
   public float getX() {
@@ -194,6 +274,10 @@ class HaloScalePanel extends LegendPanel {
 }
 
 
+/**
+ * Panel describing the width of a line and its relation to ridership on a
+ * journey between two stations.
+ */
 class LineScalePanel extends LegendPanel {
   
   public float getX() {
@@ -233,6 +317,10 @@ class LineScalePanel extends LegendPanel {
 }
 
 
+/**
+ * Panel describing what a line, filled circle, and circle outline mean (journey,
+ * selected station, and unselected station respectively).
+ */
 class SymbolsPanel extends LegendPanel {
   
   public float getX() {
@@ -273,12 +361,15 @@ class SymbolsPanel extends LegendPanel {
     line(4, 35, 10, 35);
     noStroke();
     fill(#FFFFFF);
-    text("Journies", 13, 35);
+    text("Journey", 13, 35);
   }
   
 }
 
 
+/**
+ * Panel describing the color scale used when drawing the population grid.
+ */
 class PopulationPanel extends LegendPanel {
   
   public float getX() {

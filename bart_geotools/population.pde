@@ -1,3 +1,19 @@
+/**
+ * Logic for drawing the population layer of the BART ridership visualization.
+ *
+ * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
+ * Center for Data Science and the Environment at UC Berkeley. This file is
+ * part of processing-geopoint released under the BSD 3-Clause License. See
+ * LICENSE.md.
+ *
+ * @license BSD
+ * @author Sam Pottinger (dse.berkeley.edu) 
+ */
+
+
+/**
+ * Draw the population layer.
+ */
 void drawPopulation() {
   pushMatrix();
   pushStyle();

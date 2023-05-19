@@ -22,6 +22,9 @@ ARGS_STR = '[station names] [geojson] [ridership] [population] [land] [output db
 NUM_ARGS = 6
 USAGE_STR = 'USAGE: python prep_dataset.py ' + ARGS_STR
 
+# Graph configuration
+DIRECTED = False
+
 # Constants for name standardization
 NAME_TRANSFORMS = {
     'Berryessa / North San José': 'Berryessa/North San Jose',
@@ -238,7 +241,10 @@ class GraphReader:
                 edge does not already exist or will add this weight to the edge
                 if it already exists.
         """
-        keys = sorted([source, destination])
+        if DIRECTED:
+            keys = [source, destination]
+        else:
+            keys = sorted([source, destination])
         key = '\t'.join(keys)
         new_count = self._weights.get(key, 0) + count
         self._weights[key] = new_count
