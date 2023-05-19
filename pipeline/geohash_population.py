@@ -1,3 +1,14 @@
+"""Script to aggregate a population layer to geohashes
+
+USAGE: python geohash_population.py
+
+(c) 2023 Regents of University of California / The Eric and Wendy Schmidt Center
+for Data Science and the Environment at UC Berkeley.
+
+This file is part of afscgap released under the BSD 3-Clause License. See
+LICENSE.md.
+"""
+
 import csv
 import queue
 import sys
@@ -22,8 +33,15 @@ USAGE_STR = 'USAGE: python geohash_population.py [tiff input] [csv output]'
 
 
 class GeohashEnumerator(typing.Iterable[str]):
+    """Iterator generator for geohashes that continually visits neighbors."""
 
     def __init__(self, start_geohash: str = START_GEOHASH):
+        """Create a new iterator generator.
+        
+        Args:
+            start_geohash: The initial geohash. If not provided defaults to
+                START_GEOHASH
+        """
         self._geohashes_seen = set()
         self._geohashes_waiting: queue.Queue[str] = queue.Queue()
 
@@ -57,20 +75,45 @@ class GeohashEnumerator(typing.Iterable[str]):
 
 
 class PopulationGrid:
+    """Record of a grid space in a geohashed gridded population layer."""
 
     def __init__(self, geohash: str, population: float):
+        """Create a new record.
+        
+        Args:
+            geohash: Geohash string that this grid space represents.
+            population: Estimated population count in this geohash.
+        """
         self._geohash = geohash
         self._population = population
 
     def get_geohash(self) -> str:
+        """Get this grid space's geohash.
+        
+        Returns:
+            Geohash string that this grid space represents.
+        """
         return self._geohash
 
     def get_population(self) -> float:
+        """Get the estimated population at this region.
+        
+        Returns:
+            Estimated population count in this geohash.
+        """
         return self._population
 
 
 def read_box(target: geotiff.GeoTiff,
     bounds: typing.Iterable) -> typing.Optional[numpy.ndarray]:
+    """Read a region from a geotiff.
+    
+    Args:
+        target: The geotiff to read from.
+        bounds: Coordinates to read like [[x1, y1], [x2, y2]]
+    Returns:
+        The pixels read or None if the region is out of bounds.
+    """
     try:
         return numpy.clip(
             target.read_box(bounds),
@@ -83,6 +126,15 @@ def read_box(target: geotiff.GeoTiff,
 
 def get_sum(target: geotiff.GeoTiff,
     geohash: str) -> typing.Optional[PopulationGrid]:
+    """Get the estimated total population in a region.
+    
+    Args:
+        target: The geotiff to read from.
+        geohash: The geohash for which a total should be calculated.
+    
+    Returns:
+        Newly generated model representing the population in the geohash.
+    """
     bounds_nest = geolib.geohash.bounds(geohash)
     bounds = [
         [bounds_nest[0][1], bounds_nest[0][0]],
@@ -98,12 +150,26 @@ def get_sum(target: geotiff.GeoTiff,
 
 
 def get_sums(target: geotiff.GeoTiff) -> typing.Iterable[PopulationGrid]:
+    """Generate a geohashed population grid.
+    
+    Args:
+        target: The geotiff with population information.
+    
+    Returns:
+        All of the geohashed population grid spaces found in the geotiff.
+    """
     enumerator = GeohashEnumerator()
     raw_results = map(lambda geohash: get_sum(target, geohash), enumerator)
     return filter(lambda x: x is not None, raw_results)
 
 
 def persist_results(results: typing.Iterable[PopulationGrid], location: str):
+    """Save population grid spaces to a CSV file.
+    
+    Args:
+        results: The population grid spaces to write to a CSV file.
+        location: The file path to the CSV file that should be written.
+    """
     result_dicts = map(lambda x: {
         'geohash': x.get_geohash(),
         'population': x.get_population()
@@ -116,6 +182,7 @@ def persist_results(results: typing.Iterable[PopulationGrid], location: str):
 
 
 def main():
+    """Execute the script."""
     if len(sys.argv) != NUM_ARGS + 1:
         print(USAGE_STR)
         return
