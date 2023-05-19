@@ -1,5 +1,5 @@
 /**
- * Exmaple practical usage of the processing geotools using BART ridership data.
+ * Example practical usage of the processing geotools using BART ridership data.
  *
  * Example "complete" practical sketch that demonstrates the use of processing
  * geotools in a more "real world" scenario. This program loads data from a
@@ -12,8 +12,7 @@
  *
  * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
  * Center for Data Science and the Environment at UC Berkeley. This file is
- * part of processing-geopoint released under the BSD 3-Clause License. See
- * LICENSE.md.
+ * part of afscgap released under the BSD 3-Clause License. See LICENSE.md.
  *
  * @license BSD
  * @author Sam Pottinger, Magali de Bruyn (dse.berkeley.edu)
@@ -39,12 +38,6 @@ boolean showingPopulation = false;
  */
 void setup() {
   size(900, 850);
-  
-  mapView = new GeoTransformation(
-    new GeoPoint(MAP_CENTER_LONGITUDE, MAP_CENTER_LATITUDE),
-    new PixelOffset(MAP_CENTER_X, MAP_CENTER_Y),
-    MAP_SCALE
-  );
   
   loadAssets();
   dataset = loadDataset();
@@ -79,6 +72,12 @@ void setup() {
  */
 void redraw(Set<String> highlightedCodes) {
   background(#606060);
+  
+  mapView = new GeoTransformation(
+    new GeoPoint(MAP_CENTER_LONGITUDE, MAP_CENTER_LATITUDE),
+    new PixelOffset(MAP_CENTER_X, MAP_CENTER_Y),
+    MAP_SCALE
+  );
   
   if (showingPopulation) {
     drawPopulation();
