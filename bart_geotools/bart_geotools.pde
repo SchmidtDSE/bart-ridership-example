@@ -7,7 +7,7 @@
  * selections of those stations, and allows writing to a file.
  *
  * If run with an argument, assumes it to be a two character code for the
- * station to be highlighted or "all" without quotes if all journies should
+ * station to be highlighted or "all" without quotes if all journeys should
  * be shown (no station highlighted).
  *
  * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
