@@ -23,7 +23,7 @@ cp pipeline/data/output.db ./bart_geotools/data
 
 echo "[6 / 7] Running sketch"
 xvfb-run ./scratch/processing-4.2/processing-java --sketch=bart_geotools --run EM
-sleep 1
+RETURN_CODE=$?
 
 echo "[7 / 7] Checking results"
-[[ ! -f bart_geotools/bart.png ]] && exit 1
+xit $RETURN_CODE
