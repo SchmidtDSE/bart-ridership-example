@@ -26,4 +26,4 @@ xvfb-run ./scratch/processing-4.2/processing-java --sketch=bart_geotools --run E
 RETURN_CODE=$?
 
 echo "[7 / 7] Checking results"
-xit $RETURN_CODE
+exit $RETURN_CODE
