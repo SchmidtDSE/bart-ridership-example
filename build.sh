@@ -19,7 +19,7 @@ cd ..
 
 echo "[5 / 7] Distributing dataset..."
 rm bart_geotools/data/output.db
-cp pipeline/output.db ./bart_geotools
+cp pipeline/data/output.db ./bart_geotools/data
 
 echo "[6 / 7] Running sketch"
 xvfb-run ./scratch/processing-4.2/processing-java --sketch=bart_geotools --run EM
