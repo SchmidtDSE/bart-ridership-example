@@ -10,7 +10,7 @@
  */
 
 
-afinal float MAP_CENTER_LONGITUDE = -122.4;
+final float MAP_CENTER_LONGITUDE = -122.4;
 final float MAP_CENTER_LATITUDE = 37.85;
 final float MAP_CENTER_X = 250;
 final float MAP_CENTER_Y = 250;
