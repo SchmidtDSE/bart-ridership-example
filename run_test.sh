@@ -14,8 +14,6 @@ echo "[3 / 5] Clear prior results"
 
 echo "[4 / 5] Running sketch"
 xvfb-run ./scratch/processing-4.2/processing-java --sketch=bart_geotools --run EM
-RETURN_CODE=$?
 
 echo "[5 / 5] Checking results"
-exit $RETURN_CODE
-
+[[ -f bart_geotools/bart.png ]] && exit 1
