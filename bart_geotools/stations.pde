@@ -1,5 +1,5 @@
 /**
- * Logic for stations and the journies between them in the BART viz.
+ * Logic for stations and the journeys between them in the BART viz.
  *
  * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
  * Center for Data Science and the Environment at UC Berkeley. This file is
@@ -138,7 +138,7 @@ Set<String> getHighlightedCodes() {
 
 
 /**
- * Draw the transit layer with stations and journies visualized.
+ * Draw the transit layer with stations and journeys visualized.
  *
  * @param higlightedCodes Set of codes corresponding to stations highlighted by
  *    the user.
@@ -150,7 +150,7 @@ void drawStationsAndEdges(Set<String> highlightedCodes) {
 
 
 /**
- * Draw the stations piece of the stations and journies layer.
+ * Draw the stations piece of the stations and journeys layer.
  *
  * @param higlightedCodes Set of codes corresponding to stations highlighted by
  *    the user.
@@ -205,7 +205,7 @@ void drawStations(Set<String> highlightedCodes) {
 
 
 /**
- * Draw the journies piece of the stations and journies layer.
+ * Draw the journeys piece of the stations and journeys layer.
  *
  * @param higlightedCodes Set of codes corresponding to stations highlighted by
  *    the user.

@@ -54,13 +54,13 @@ void drawTitle() {
   noStroke();
   fill(UI_BG_COLOR_TITLE);
   rectMode(CORNER);
-  rect(0, 0, 320, 24);
+  rect(0, 0, 406, 24);
   
   noStroke();
   fill(#FFFFFF);
   textFont(TITLE_FONT);
   textAlign(CENTER, CENTER);
-  text("BART Daily Ridership Viz", 160, 12);
+  text("SF Bay BART Daily Ridership Viz", 203, 12);
   
   popStyle();
   popMatrix();
@@ -361,7 +361,7 @@ class SymbolsPanel extends LegendPanel {
     line(4, 35, 10, 35);
     noStroke();
     fill(#FFFFFF);
-    text("Journies", 13, 35);
+    text("Journey", 13, 35);
   }
   
 }

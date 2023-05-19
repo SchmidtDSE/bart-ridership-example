@@ -18,9 +18,9 @@ import java.sql.*;
 
 
 /**
- * An edge representing journies that start / end at two paired stations.
+ * An edge representing journeys that start / end at two paired stations.
  *
- * An edge representing journies that start / end at two paired stations which
+ * An edge representing journeys that start / end at two paired stations which
  * is treated as directed but, in practice, may or may not be directed
  * depending on the underlying dataset preparation. See
  * pipeline/prep_dataset.py:DIRECTED.
@@ -32,7 +32,7 @@ class Edge {
   private final float count;
 
   /**
-   * Create a new record of journies between two stations.
+   * Create a new record of journeys between two stations.
    *
    * @param newSource The two character code of one station in the edge. Note
    *    that this can be used as the originating station if building a directed
@@ -185,7 +185,7 @@ class Station {
   }
   
   /**
-   * Get the edges for the journies starting at or associated to this station.
+   * Get the edges for the journeys starting at or associated to this station.
    *
    * @return Edges that, in the directed case, originate from this station or,
    *    in the undirected case, are associated to this station.
