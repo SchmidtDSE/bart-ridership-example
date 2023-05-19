@@ -14,7 +14,7 @@ echo "[3 / 5] Clear prior results"
 
 echo "[4 / 5] Running sketch"
 xvfb-run ./scratch/processing-4.2/processing-java --sketch=bart_geotools --run EM
-sleep 1
+sleep 5
 
 echo "[5 / 5] Checking results"
 [[ ! -f bart_geotools/bart.png ]] && exit 1
