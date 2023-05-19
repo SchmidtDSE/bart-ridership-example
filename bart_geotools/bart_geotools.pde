@@ -40,6 +40,12 @@ boolean showingPopulation = false;
 void setup() {
   size(900, 850);
   
+  mapView = new GeoTransformation(
+    new GeoPoint(MAP_CENTER_LONGITUDE, MAP_CENTER_LATITUDE),
+    new PixelOffset(MAP_CENTER_X, MAP_CENTER_Y),
+    MAP_SCALE
+  );
+  
   loadAssets();
   dataset = loadDataset();
   maxStationCount = dataset.getMaxStationCount();
@@ -73,12 +79,6 @@ void setup() {
  */
 void redraw(Set<String> highlightedCodes) {
   background(#606060);
-  
-  mapView = new GeoTransformation(
-    new GeoPoint(MAP_CENTER_LONGITUDE, MAP_CENTER_LATITUDE),
-    new PixelOffset(MAP_CENTER_X, MAP_CENTER_Y),
-    MAP_SCALE
-  );
   
   if (showingPopulation) {
     drawPopulation();
