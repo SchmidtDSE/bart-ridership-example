@@ -6,10 +6,6 @@
  * sqlite database, displays a map of the bay area with stations, allows
  * selections of those stations, and allows writing to a file.
  *
- * This can be run in interactive mode by simply executing the sketch without
- * additional parameters or by passing interactive as first argument. However,
- * it can also be run in demo mode for CI / CD by passing demo as first argument.
- *
  * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
  * Center for Data Science and the Environment at UC Berkeley. This file is
  * part of afscgap released under the BSD 3-Clause License. See LICENSE.md.
@@ -33,6 +29,9 @@ LegendPanel populationPanel;
 boolean showingPopulation = false;
 
 
+/**
+ * Load the dataset and build the UI components.
+ */
 void setup() {
   size(900, 850);
   
@@ -48,6 +47,9 @@ void setup() {
 }
 
 
+/**
+ * Preform a full redraw.
+ */
 void draw() {
   background(#606060);
   
@@ -69,6 +71,9 @@ void draw() {
 }
 
 
+/**
+ * Watch for the user enabling / disabling the population layer.
+ */
 void keyReleased() {
   if (key == 'p') {
     showingPopulation = !showingPopulation;

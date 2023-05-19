@@ -15,7 +15,7 @@ ALLOWED_THREE_LETTERS = {
     '9q9'
 }
 
-START_GEOHASH = '9q9p'
+START_GEOHASH = '9q9p3'
 
 NUM_ARGS = 2
 USAGE_STR = 'USAGE: python geohash_population.py [tiff input] [csv output]'

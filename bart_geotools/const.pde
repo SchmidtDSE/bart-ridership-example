@@ -1,3 +1,15 @@
+/**
+ * Constants and shared assets for the BART geopoint demonstration.
+ *
+ * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
+ * Center for Data Science and the Environment at UC Berkeley. This file is
+ * part of afscgap released under the BSD 3-Clause License. See LICENSE.md.
+ *
+ * @license BSD
+ * @author Sam Pottinger, Magali de Bruyn (dse.berkeley.edu)
+ */
+
+
 final float MAP_CENTER_LONGITUDE = -122.4;
 final float MAP_CENTER_LATITUDE = 37.85;
 final float MAP_CENTER_X = 250;
@@ -32,6 +44,10 @@ final color[] POPULATION_COLORS = {
 PFont BODY_FONT;
 PFont TITLE_FONT;
 
+
+/**
+ * Prepare assets that must be loaded after sketch init.
+ */
 void loadAssets() {
   BODY_FONT = loadFont("Silkscreen-Regular-12.vlw");
   TITLE_FONT = loadFont("Silkscreen-Regular-20.vlw");

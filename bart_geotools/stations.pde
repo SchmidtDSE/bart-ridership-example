@@ -1,3 +1,22 @@
+/**
+ * Logic for stations and the journies between them in the BART viz.
+ *
+ * (c) 2023 Regents of University of California / The Eric and Wendy Schmidt
+ * Center for Data Science and the Environment at UC Berkeley. This file is
+ * part of afscgap released under the BSD 3-Clause License. See LICENSE.md.
+ *
+ * @license BSD
+ * @author Sam Pottinger (dse.berkeley.edu) 
+ */
+
+
+/**
+ * Record describing how to draw a station's glyph (ellipse).
+ *
+ * Record describing a point with a halo radius which can be used to describe a
+ * station with a pixel coordinate in the visualization and its ridership as a
+ * number of pixels radius.
+ */
 class PointWithRadius {
   
   private final String code;
@@ -5,25 +24,54 @@ class PointWithRadius {
   private final float y;
   private final float radius;
   
-  public PointWithRadius(String newCode, float newX, float newY, float newRadius) {
+  /**
+   * Create a record of how to draw a glyph representing a station.
+   *
+   * @param newCode The two character code for the station.
+   * @param newX The horizontal coordinate of the station in pixel-space.
+   * @param newY The vertical coordinate of the station in pixel-space.
+   * @param newRadius The radius of the ellipse to use to represent the station.
+   */
+  public PointWithRadius(String newCode, float newX, float newY,
+    float newRadius) {
     code = newCode;
     x = newX;
     y = newY;
     radius = newRadius;
   }
   
+  /**
+   * Get the two character code of the station to be represented by a glyph.
+   *
+   * @return The two character code identifying the station.
+   */
   public String getCode() {
     return code;
   }
   
+  /**
+   * Get the x coordinate of the glyph that will represent a station.
+   *
+   * @return Horizontal coordinate of the station in pixel-space.
+   */
   public float getX() {
     return x;
   }
   
+  /**
+   * Get the y coordinate of the glyph that will represent a station.
+   *
+   * @return Vertical coordinate of the station in pixel-space.
+   */
   public float getY() {
     return y;
   }
   
+  /**
+   * Get the radius of the glyph that will represent a station.
+   *
+   * @return The radius of this glyph's ellipse in pixels.
+   */
   public float getRadius() {
     return radius;
   }
@@ -31,6 +79,13 @@ class PointWithRadius {
 }
 
 
+/**
+ * Convert a station to a glyph representing that station.
+ *
+ * @param station The station to be visualized.
+ * @return Information about how to draw a glyph (ellipse) representing that
+ *    station.
+ */
 PointWithRadius makePointWithRadius(Station station) {
   GeoPoint point = new GeoPoint(station.getLongitude(), station.getLatitude());
   
@@ -43,6 +98,12 @@ PointWithRadius makePointWithRadius(Station station) {
 }
 
 
+/**
+ * Place all of the stations and generate glyph information for them.
+ *
+ * @return Map from station two character code to information about how to draw
+ *    a glyph representing that station.
+ */
 Map<String, PointWithRadius> getStationLocations() {
   return dataset.getStations()
     .stream()
@@ -54,6 +115,13 @@ Map<String, PointWithRadius> getStationLocations() {
 }
 
 
+/**
+ * Determine over which stations the user's cursor is hovering.
+ *
+ * @return Set of two character codes for the stations being higlighted
+ *    (hovered over) by the user's cursor. May be an empty set if no stations
+ *    highlighted.
+ */
 Set<String> getHighlightedCodes() {
   PVector mousePosition = new PVector(mouseX, mouseY);
   
@@ -69,12 +137,24 @@ Set<String> getHighlightedCodes() {
 }
 
 
+/**
+ * Draw the transit layer with stations and journies visualized.
+ *
+ * @param higlightedCodes Set of codes corresponding to stations highlighted by
+ *    the user.
+ */
 void drawStationsAndEdges(Set<String> highlightedCodes) {
   drawEdges(highlightedCodes);
   drawStations(highlightedCodes);
 }
 
 
+/**
+ * Draw the stations piece of the stations and journies layer.
+ *
+ * @param higlightedCodes Set of codes corresponding to stations highlighted by
+ *    the user.
+ */
 void drawStations(Set<String> highlightedCodes) {
   pushMatrix();
   pushStyle();
@@ -98,7 +178,9 @@ void drawStations(Set<String> highlightedCodes) {
       float overlapCount = dataset.getStations().stream()
         .flatMap((target) -> target.getEdges().stream())
         .filter((target) -> target.contains(stationCode))
-        .filter((target) -> highlightedCodes.contains(target.getOther(stationCode)))
+        .filter(
+          (target) -> highlightedCodes.contains(target.getOther(stationCode))
+        )
         .map((target) -> target.getCount())
         .reduce((a, b) -> a + b)
         .orElse(0.0);
@@ -122,6 +204,12 @@ void drawStations(Set<String> highlightedCodes) {
 }
 
 
+/**
+ * Draw the journies piece of the stations and journies layer.
+ *
+ * @param higlightedCodes Set of codes corresponding to stations highlighted by
+ *    the user.
+ */
 void drawEdges(Set<String> highlightedCodes) {
   pushMatrix();
   pushStyle();
