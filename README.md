@@ -1,6 +1,8 @@
 # BART Processing Geopoint Example
 More "realistic" example for using the [Processing Geopoint](https://github.com/SchmidtDSE/processing-geopoint) library that interactively shows BART ridership by station and by journey (pair of stations where the system is entered and exited) with an optional population layer.
 
+![Animated screenshot of a visualization showing journeys within BART using processing-geopoint.](https://gleap.org/static/img/bart_demo.gif)
+
 <br>
 <br>
 
@@ -96,6 +98,7 @@ Released under the [BSD license](https://opensource.org/license/BSD-3-clause/). 
 Visualization uses:
 
  - [ColorBrewer 2.0](https://colorbrewer2.org) under the [Apache 2.0 License](https://github.com/axismaps/colorbrewer/blob/master/LICENCE.txt).
+ - [Silkscreen](https://kottke.org/plus/type/silkscreen/) under the [Open Font License](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).
  - [Processing](https://processing.org/) under the [LGPL](https://github.com/processing/processing4/blob/main/LICENSE.md)
  - [processing-geopoint](https://github.com/SchmidtDSE/processing-geopoint) under the [BSD License](https://github.com/SchmidtDSE/processing-geopoint/blob/main/LICENSE.md).
 
