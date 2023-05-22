@@ -54,22 +54,26 @@ If you are on Linux with aptitude, `build.sh` will install all dependencies (inc
 <br>
 
 ## Method
-The visualization deals with station ridership, journey ridership, and population estimations.
+The visualization deals with station ridership, journey ridership, and population estimations. Note that this describes the method currently employed on `main` but community members may choose to modify this behavior.
 
 <br>
 
 ### Station ridership
-TKTK
+The average weekday [BART ridership data](https://www.bart.gov/about/reports/ridership) are aggregated such that any passenger entering or exiting the BART system at that station is considered in its ridership. Note that this uses the `202304` release. This is then represented as the area of the circle used to represent a station in the visualization.
 
 <br>
 
 ### Journey Ridership
-TKTK
+A journey is the pairing of two stations such that all passengers entering at one station and exiting at another are considered in that journey's ridership. Put another way, passengers entering at station A and existing at station B are considered to be in the journey A - B.
+
+By default, this is not directional (see `pipeline/prep_dataset.py:DIRECTED`). So, passengers entering at station B and exiting at station A are also considered to be part of the ridership for journey A - B. In other words, journey A - B is the same as journey B - A.
+
+This visualization uses average weekday [BART ridership data](https://www.bart.gov/about/reports/ridership) from the `202304` release and represents ridership by `strokeWeight` (line width) for lines between the two stations involved in the journey.
 
 <br>
 
 ### Population estimations
-TKTK
+This visualization uses [WorldPop 2020 Unconstrained USA Population Counts](https://hub.worldpop.org/geodata/summary?id=29755) aggregated to a 5 letter [geohash](https://en.wikipedia.org/wiki/Geohash) by summing all pixels found within a geohash's bounds. These are then visualized using a sequential mono-chromatic color scale.
 
 <br>
 <br>
@@ -89,7 +93,11 @@ Pull requests and bug reports welcome. We do not have a formalized template but 
 ## License and open source
 Released under the [BSD license](https://opensource.org/license/BSD-3-clause/). See [LICENSE.md](https://github.com/SchmidtDSE/afscgap/blob/main/LICENSE.md) for more details. Copyright Regents of University of California.
 
-Visualization uses [Processing](https://processing.org/) under the [LGPL](https://github.com/processing/processing4/blob/main/LICENSE.md) and [processing-geopoint](https://github.com/SchmidtDSE/processing-geopoint) under the [BSD License](https://github.com/SchmidtDSE/processing-geopoint/blob/main/LICENSE.md).
+Visualization uses:
+
+ - [ColorBrewer 2.0](https://colorbrewer2.org) under the [Apache 2.0 License](https://github.com/axismaps/colorbrewer/blob/master/LICENCE.txt).
+ - [Processing](https://processing.org/) under the [LGPL](https://github.com/processing/processing4/blob/main/LICENSE.md)
+ - [processing-geopoint](https://github.com/SchmidtDSE/processing-geopoint) under the [BSD License](https://github.com/SchmidtDSE/processing-geopoint/blob/main/LICENSE.md).
 
 Data credits:
 
