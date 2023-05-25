@@ -7,7 +7,7 @@ More "realistic" example for using the [Processing Geopoint](https://github.com/
 <br>
 
 ## Purpose
-Though the [Processing Geopoint](https://github.com/SchmidtDSE/processing-geopoint) documentation offers examples of use, they are generally quite small. This project provides a more realistic example of using these tools in a more complex sketch. Specifically, this mini-project explores ridership of the [Bay Area Rapid Transit system (BART)](https://bart.gov) in the San Francisco Bay Area.
+Though the [Processing Geopoint](https://github.com/SchmidtDSE/processing-geopoint) documentation offers examples of use, they are generally quite small. This project provides a more realistic example of using these tools in a more complex Processing sketch. Specifically, this mini-project explores ridership of the [Bay Area Rapid Transit system (BART)](https://bart.gov) in the San Francisco Bay Area.
 
 <br>
 <br>
@@ -28,8 +28,9 @@ Running via the PDE is simple:
 
  - Open the PDE.
  - Go to File > Open.
- - Open `bart_geotools.pde` within your copy of this repository.
- - Click run.
+ - Open `bart_geotools.pde` within your local copy of this repository.
+ - Click run. 
+    - Another window, with the visualization, will pop up.
 
 <br>
 
@@ -45,7 +46,7 @@ Just have `--sketch=bart_geotools` point to the `bart_geotools` directory within
 <br>
 
 ### Build from scratch
-The dataset is pre-built but the data pipeline can be run by using `pipeline/pipeline.sh`. Note that this is expected to be run on with the following dependencies already installed:
+The dataset is pre-built but the data pipeline can be run by using `pipeline/pipeline.sh`. Note that this is expected to be run with the following dependencies already installed:
 
  - **Python 3**: Need an install with Python 3 and pip available. See the [Hitchiker's Guide for installation details](https://docs.python-guide.org/starting/installation/).
  - **wget**: This utility is typically pre-installed on Linux but can be added with `apt-get install wget` or equivalent. For Mac, consider the [wget brew formula](https://formulae.brew.sh/formula/wget). For Windows, consider a [third-party wget build](https://eternallybored.org/misc/wget/). Note that use of community builds is at your own risk.
@@ -56,7 +57,7 @@ If you are on Linux with aptitude, `build.sh` will install all dependencies (inc
 <br>
 
 ## Method
-The visualization deals with station ridership, journey ridership, and population estimations. Note that this describes the method currently employed on `main` but community members may choose to modify this behavior.
+The visualization deals with station ridership, journey ridership, and population estimations. Note that this describes the method currently employed on the `main` branch but community members may choose to modify this behavior.
 
 <br>
 
